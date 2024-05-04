@@ -1,28 +1,42 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import Location from "./Location";
-function PersonalInformation({ data, udpateData }) {
-  let [urls, setUrls] = useState([{ id: Math.random(), value: "" }]);
+function PersonalInformation({ data, updateData }) {
+  let [urls, setUrls] = useState([]);
+
+  useEffect(() => {
+    if (data.urls) {
+      setUrls(data.urls);
+    } else {
+      setUrls([{ id: Date.now(), value: "" }]);
+    }
+  }, [data.urls]);
 
   function handleAddURL() {
     const newUrl = { id: Math.random(), value: "" };
     setUrls([...urls, newUrl]);
   }
-  function handleRemoveUrl(id) {
-    setUrls(urls.filter((url) => url.id !== id));
+  function handleRemoveUrl(id, name) {
+    let updatedUrls = urls.filter((url) => url.id !== id);
+    setUrls(updatedUrls);
+    const updatedData = { ...data, [name]: updatedUrls };
+    updateData(updatedData);
   }
 
   function handleChange(e) {
     const { name, value } = e.target;
-    udpateData({ ...data, [name]: value });
+    updateData({ ...data, [name]: value });
   }
-  function handleURLChange(id, value) {
-    setUrls((prevUrls) =>
-      prevUrls.map((url) => (url.id === id ? { ...url, value } : url))
+  function handleURLChange(id, value, name) {
+    const updateUrls = urls.map((url) =>
+      url.id === id ? { ...url, value } : url
     );
+    setUrls(updateUrls);
+    updateData({ ...data, [name]: updateUrls });
   }
   function handleFileChange(e) {
     const { name, files } = e.target;
-    udpateData({ ...data, [name]: files[0] });
+    updateData({ ...data, [name]: files[0] });
   }
   return (
     <div>
@@ -34,7 +48,7 @@ function PersonalInformation({ data, udpateData }) {
           className="resume-input"
           type="file"
           name="resume"
-          onChange={handleFileChange}
+          onChange={(e) => handleFileChange(e)}
         />
       </button>
       <p className="sub-heading parent-container">Contact Info</p>
@@ -44,9 +58,10 @@ function PersonalInformation({ data, udpateData }) {
         type="text"
         placeholder="Full Name"
         name="fullName"
-        onChange={handleChange}
+        value={data.fullName || ""}
+        onChange={(e) => handleChange(e)}
       />
-      <Location />
+      <Location data={data} updateData={updateData} />
       <div className="parent-container">
         <p className="title">Email</p>
         <input
@@ -54,7 +69,8 @@ function PersonalInformation({ data, udpateData }) {
           type="text"
           placeholder="Email"
           name="email"
-          onChange={handleChange}
+          value={data.email || ""}
+          onChange={(e) => handleChange(e)}
         />
       </div>
       <div className="parent-container">
@@ -64,7 +80,8 @@ function PersonalInformation({ data, udpateData }) {
           type="text"
           placeholder="Phone"
           name="phone"
-          onChange={handleChange}
+          value={data.phone || ""}
+          onChange={(e) => handleChange(e)}
         />
       </div>
       <p className="sub-heading parent-container">Website (optional)</p>
@@ -76,14 +93,16 @@ function PersonalInformation({ data, udpateData }) {
               className="input-text-box"
               type="text"
               placeholder="URL(LinkedIn, Github, Portfolio)"
-              name="websiteLink"
+              name="urls"
               value={url.value}
-              onChange={(e) => handleURLChange(url.id, e.target.value)}
+              onChange={(e) =>
+                handleURLChange(url.id, e.target.value, e.target.name)
+              }
             />
             {urls.length > 1 && (
               <div
                 className="remove-container"
-                onClick={(e) => handleRemoveUrl(url.id)}
+                onClick={(e) => handleRemoveUrl(url.id, "urls")}
               >
                 <p className="cross-container">&times;</p>
                 <p className="remove-url">Remove this website</p>

@@ -1,8 +1,11 @@
 function ReviewSubmit({ formData }) {
+  function showFormData() {
+    console.log(formData);
+  }
   return (
     <div>
       <p>Review and Submit</p>
-      console.log(formData);
+      <p onClick={showFormData}>Show</p>
     </div>
   );
 }

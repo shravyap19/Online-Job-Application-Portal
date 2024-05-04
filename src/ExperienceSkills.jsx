@@ -17,6 +17,15 @@ function ExperienceSkills({ data, updateData }) {
     );
     updateData({ ...data, prevEmployerDetails });
   }
+  function handleRemoveJob(id) {
+    setPrevEmployerDetails((prevEmpDetails) =>
+      prevEmpDetails.filter((empDetails) => empDetails.id !== id)
+    );
+  }
+  function handleAddEmployerDetails() {
+    let newEmployerDetails = { id: Date.now(), value: "" };
+    setPrevEmployerDetails([...prevEmployerDetails, newEmployerDetails]);
+  }
   return (
     <div>
       <p className="heading">Experience and Skills</p>
@@ -29,7 +38,7 @@ function ExperienceSkills({ data, updateData }) {
           id="first-job-yes"
           name="first-job"
           value="Yes"
-          onChange={handleChange}
+          // onChange={(e) => handleChange(e)}
         />
         <label className="title margin-r" htmlFor="first-job-yes">
           Yes
@@ -76,7 +85,7 @@ function ExperienceSkills({ data, updateData }) {
               )
             }
           />
-          <Location />
+          <Location data={data} updateData={updateData} />
           <p className="title time-period-container">Time Period</p>
           <div className="current-job-container">
             <input className="current-work-checkbox" type="checkbox" />
@@ -91,7 +100,7 @@ function ExperienceSkills({ data, updateData }) {
                 placeholder="Start(MM/YYYY)"
                 name="startDate"
                 onChange={(e) =>
-                  prevEmployerDetails(details.id, e.name, e.value)
+                  handleEmployerDetailsChange(details.id, e.name, e.value)
                 }
               />
             </div>
@@ -106,7 +115,7 @@ function ExperienceSkills({ data, updateData }) {
                 placeholder="End(MM/YYYY)"
                 name="endDate"
                 onChange={(e) =>
-                  prevEmployerDetails(details.id, e.name, e.value)
+                  handleEmployerDetailsChange(details.id, e.name, e.value)
                 }
               />
             </div>
@@ -115,11 +124,17 @@ function ExperienceSkills({ data, updateData }) {
           <textarea
             className="text-area"
             placeholder="Add your responsibilities, contributions and results"
+            name="description"
+            onChange={(e) =>
+              handleEmployerDetailsChange(details.id, e.name, e.value)
+            }
           />
           {prevEmployerDetails.length > 1 && (
             <div
               className="remove-container"
-              // onClick={(e) => handleRemoveJob(details.id)}
+              onClick={(e) =>
+                handleRemoveJob(prevEmployerDetails.id, e.value, e.name)
+              }
             >
               <p className="cross-container">&times;</p>
               <p className="remove-url">Remove this Job</p>
@@ -127,12 +142,17 @@ function ExperienceSkills({ data, updateData }) {
           )}
         </div>
       ))}
-      <div className="add-more-container">
+      <div onCLick={handleAddEmployerDetails} className="add-more-container">
         <img className="add-more-btn" src="./plus.png" alt="add more" />
         <p className="title">Add Another Job</p>
       </div>
       <p className="sub-heading parent-container">Skills (optional)</p>
-      <textarea className="text-area" placeholder="Areas of expertise" />
+      <textarea
+        name="skills"
+        className="text-area"
+        placeholder="Areas of expertise"
+        onChange={(e) => handleChange(e)}
+      />
     </div>
   );
 }
