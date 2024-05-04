@@ -1,0 +1,12 @@
+#root {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: aliceblue;
+  padding-bottom: 20px;
+}
+
+* {
+  border: 0;
+  margin: 0;
+  box-sizing: border-box;
+}

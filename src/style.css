@@ -1,0 +1,294 @@
+.header {
+  background-color: #465a6a;
+  width: 100vw;
+  height: 250px;
+  padding: 30px;
+}
+.App {
+  display: flex;
+  overflow: scroll;
+}
+.personal-info,
+.education,
+.experience-skills,
+.voluntary-identification,
+.review-submit {
+  text-transform: uppercase;
+  color: #ffffff;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: small;
+  cursor: pointer;
+  padding-bottom: 20px;
+  padding-top: 20px;
+}
+.job-title {
+  display: flex;
+  justify-content: left;
+  font-family: "Optimistic Display Medium", Helvetica, Arial, sans-serif;
+  font-weight: 500;
+  font-size: xx-large;
+  color: #ffffff;
+  padding-top: 30px;
+  padding-left: 40px;
+}
+.active-section {
+  font-weight: bold;
+  color: #4caf50;
+  cursor: default;
+}
+.job-location-container {
+  display: flex;
+}
+.location-icon {
+  width: 25px;
+  height: 50px;
+  padding-top: 20px;
+  margin-left: 40px;
+  color: #ffffff;
+}
+.job-location {
+  font-family: "Optimistic Display Medium", Helvetica, Arial, sans-serif;
+  color: #ffffff;
+  margin-top: 15px;
+  padding-top: 10px;
+  padding-left: 10px;
+  font-size: large;
+}
+.location-container {
+  display: flex;
+  margin-top: 8px;
+}
+.parent-container {
+  margin-top: 20px;
+}
+.sidebar {
+  width: 30%;
+  height: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+}
+.sidebar-content {
+  width: 100%;
+  height: 100%;
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #483eff;
+  border-radius: 15px;
+}
+.sidebar-bg-img {
+  width: 100%;
+  height: 100%;
+}
+.details-container {
+  width: 50%;
+  height: 100%;
+  overflow: scroll;
+  box-sizing: border-box;
+  padding: 20px 20px 0 20px;
+}
+.heading {
+  font-size: x-large;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  padding-bottom: 10px;
+}
+.sub-heading {
+  font-size: large;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  padding-bottom: 15px;
+  padding-top: 15px;
+}
+.title {
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 3px;
+  font-size: small;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+}
+.time-period-container {
+  margin-top: 20px;
+  margin-bottom: 1px;
+}
+.input-text-box {
+  width: 100%;
+  height: 40px;
+  border-radius: 5px;
+  border-color: #d9dddf;
+  padding: 10px;
+  border-width: 1px;
+  border-style: solid;
+}
+.degree-dropdown {
+  width: 100%;
+  height: 40px;
+}
+.URL-details {
+  margin-top: 10px;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  font-size: small;
+  margin-bottom: 3px;
+}
+.location-city-input {
+  width: 250px;
+  height: 40px;
+  margin-right: 20px;
+  border-color: #d9dddf;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+}
+.concentration-container {
+  display: flex;
+}
+.state-dropdown {
+  width: 250px;
+  height: 40px;
+  margin-right: 20px;
+  border-style: solid;
+}
+.zip-text-box {
+  width: 140px;
+  height: 40px;
+  border-color: #d9dddf;
+  border-radius: 5px;
+  border-style: solid;
+  border-width: 1px;
+  padding: 10px;
+}
+.add-more-container {
+  display: flex;
+  gap: 3px;
+  padding-top: 10px;
+  margin-top: 20px;
+  cursor: pointer;
+  padding-bottom: 20px;
+}
+.add-more-btn {
+  width: 15px;
+  height: 10px;
+}
+.add-another:hover {
+  text-decoration: underline;
+}
+.add-another {
+  font-size: small;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+}
+.btn-container {
+  display: flex;
+  gap: 5px;
+  cursor: pointer;
+}
+.email-container {
+  margin-top: 20px;
+}
+.resume-upload-label {
+  background-color: #4caf50; /* Green background */
+  color: white;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  position: relative;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+}
+.resume-input {
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  cursor: pointer;
+}
+.arrow-container {
+  border-width: 1px;
+  border-color: #d9dddf;
+  border-style: solid;
+  border-radius: 50%;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 5px;
+}
+.arrow {
+  font-size: x-small;
+}
+.footer-btn-label {
+  font-size: medium;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+}
+.footer-btn-label:hover {
+  text-decoration: underline;
+}
+.footer-btn {
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+}
+.remove-url {
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  font-size: small;
+  padding-bottom: 10px;
+  padding-top: 2px;
+}
+.remove-container {
+  display: flex;
+  cursor: pointer;
+  gap: 5px;
+  padding-top: 2px;
+}
+.remove-line-height {
+  line-height: 0%;
+}
+.cross-container {
+  border-width: 1px;
+  border-color: #d9dddf;
+  border-style: solid;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  height: 18px;
+}
+.hr-footer {
+  width: 100%;
+  margin-top: 30px;
+  border-color: #d9dddf;
+  border-width: 1px;
+  border-style: solid;
+}
+.radio-input {
+  margin-right: 5px;
+  margin-bottom: 20px;
+}
+.current-job-container {
+  display: flex;
+  gap: 10px;
+}
+.date-calendar {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.text-area {
+  width: 100%;
+  height: 80px;
+  padding: 10px;
+}
+.current-work-checkbox {
+  width: 18px;
+}
+.self-identification-text {
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  font-size: 0.875rem;
+  line-height: 20px;
+}
+.identification-reuqire-reason {
+  font-weight: bold;
+}
+.margin-r {
+  margin-right: 30px;
+}
