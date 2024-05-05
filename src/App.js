@@ -74,13 +74,16 @@ function App() {
   return (
     <div>
       <div className="header">
-        <p className="job-title">Software Engineer (Frontend), Payments</p>
+        <p className="job-title">Senior Software Engineer, Systems ML - AI</p>
+        <p className="job-title header-padding">Application Engineering</p>
         <div className="job-location-container">
-          <img
-            className="location-icon"
-            src="./location.webp"
-            alt="location-icon"
-          />
+          <div className="header-padding">
+            <img
+              className="location-icon"
+              src="./location.webp"
+              alt="location-icon"
+            />
+          </div>
           <p className="job-location">Sunnyvale, California</p>
         </div>
       </div>

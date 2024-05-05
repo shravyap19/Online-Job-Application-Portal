@@ -1,20 +1,34 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import Select from "react-select";
 function Education({ data, updateData }) {
-  const [degrees, setDegrees] = useState([
-    {
-      id: Date.now(),
-      value: [
-        { value: "Bachelors", label: "Bachelors" },
-        { value: "Masters", label: "Masters" },
-        { value: "PHD", label: "PHD" },
-      ],
-    },
-  ]);
+  let [degrees, setDegrees] = useState([]);
+  useEffect(() => {
+    if (data.degrees) {
+      setDegrees(data.degrees);
+    } else {
+      setDegrees([
+        {
+          id: Date.now(),
+          schoolName: "",
+          selectedDegree: null,
+          concentrations: ["", ""],
+          options: [
+            { value: "Bachelors", label: "Bachelors" },
+            { value: "Masters", label: "Masters" },
+            { value: "PHD", label: "PHD" },
+          ],
+        },
+      ]);
+    }
+  }, [data.degrees]);
   function handleAddDegree() {
     const newDegree = {
       id: Date.now(),
-      value: [
+      schoolName: "",
+      selectedDegree: null,
+      concentrations: ["", ""],
+      options: [
         { value: "Bachelors", label: "Bachelors" },
         { value: "Masters", label: "Masters" },
         { value: "PHD", label: "PHD" },
@@ -25,74 +39,94 @@ function Education({ data, updateData }) {
       return updatedDegree;
     });
   }
-  function handleRemoveDegree(id) {
-    setDegrees((prevDegrees) =>
-      prevDegrees.filter((degree) => degree.id !== id)
-    );
+  function handleRemoveDegree(id, name) {
+    const updatedDegrees = degrees.filter((degree) => degree.id !== id);
+    setDegrees(updatedDegrees);
+    const updatedData = { ...data, [name]: updatedDegrees };
+    updateData(updatedData);
   }
-  function handleChange(e) {
-    let { name, value } = e.target;
+  function handleChange(id, name, value) {
+    let updatedDegree = degrees.map((degree) =>
+      degree.id === id ? { ...degree, [name]: value } : degree
+    );
+    setDegrees(updatedDegree);
     updateData({ ...data, [name]: value });
   }
-  function handleDegreeChange(selectedOption, id) {
-    setDegrees((prevDegrees) =>
-      prevDegrees.map((degree) =>
-        degree.id === id ? { ...degree, selectedOption } : degree
-      )
+  function handleDegreeChange(id, selectedOption) {
+    let updatedDegrees = degrees.map((prevDegree) =>
+      prevDegree.id === id
+        ? { ...prevDegree, selectedDegree: selectedOption }
+        : prevDegree
     );
-    updateData({ ...data, degree: selectedOption ? selectedOption.value : "" });
+    setDegrees(updatedDegrees);
+    updateData({ ...data, degrees: updatedDegrees });
+  }
+  function handleConcentrationChange(degreeId, index, value) {
+    let updatedConcentrations = degrees.map((degree) => {
+      if (degree.id === degreeId) {
+        let newConcentrations = [...degree.concentrations];
+        newConcentrations[index] = value;
+        return { ...degree, concentrations: newConcentrations };
+      }
+      return degree;
+    });
+    setDegrees(updatedConcentrations);
+    updateData({ ...data, degrees: updatedConcentrations });
+  }
+  function handleHighSchoolNameChange(name, value) {
+    updateData({ ...data, [name]: value });
   }
 
   return (
     <div>
       <p className="heading">Education</p>
       <p className="sub-heading">Higher Education (optional)</p>
-      <p className="title">School Name</p>
-      <input
-        className="input-text-box"
-        type="text"
-        name="collegeName"
-        placeholder="College/university Name"
-        onChange={handleChange}
-      />
       {degrees.map((degree) => (
         <div key={degree.id}>
+          <p className="title">School Name</p>
+          <input
+            className="input-text-box"
+            type="text"
+            name="schoolName"
+            value={degree.schoolName}
+            placeholder="College/University Name"
+            onChange={(e) =>
+              handleChange(degree.id, e.target.name, e.target.value)
+            }
+          />
           <p className="title">Degree</p>
           <Select
             className="degree-dropdown"
-            options={degree.value}
+            options={degree.options}
             placeholder="Degree"
             name="degree"
+            value={degree.selectedDegree}
             onChange={(selectedOption) =>
-              handleDegreeChange(selectedOption, degree.id)
+              handleDegreeChange(degree.id, selectedOption)
             }
           />
           <div className="concentration-container">
-            <div>
-              <p className="title">Concentration</p>
-              <input
-                type="text"
-                className="location-city-input"
-                placeholder="Concentration"
-                name="concentration1"
-                onChange={handleChange}
-              />
-            </div>
-            <div>
-              <p className="title">Concentration</p>
-              <input
-                type="text"
-                className="location-city-input"
-                placeholder="Concentration"
-                name="concentration2"
-                onChange={handleChange}
-              />
-            </div>
+            {degree.concentrations.map((concentration, index) => (
+              <div key={index}>
+                <p className="title">Concentration</p>
+                <input
+                  type="text"
+                  className="location-city-input"
+                  placeholder="Concentration"
+                  value={concentration || ""}
+                  name="concentrations"
+                  onChange={(e) =>
+                    handleConcentrationChange(degree.id, index, e.target.value)
+                  }
+                />
+              </div>
+            ))}
           </div>
+
           {degrees.length > 1 && (
             <div
               className="remove-container"
-              onClick={() => handleRemoveDegree(degree.id)}
+              onClick={() => handleRemoveDegree(degree.id, "degrees")}
             >
               <p className="cross-container">&times;</p>
               <p className="remove-url">Remove this Degree</p>
@@ -107,7 +141,16 @@ function Education({ data, updateData }) {
       </div>
       <p className="sub-heading">High School (optional)</p>
       <p className="title">High School</p>
-      <input className="input-text-box" type="text" placeholder="High School" />
+      <input
+        className="input-text-box"
+        type="text"
+        name="highSchool"
+        value={data.highSchool || ""}
+        placeholder="High School"
+        onChange={(e) =>
+          handleHighSchoolNameChange(e.target.name, e.target.value)
+        }
+      />
     </div>
   );
 }

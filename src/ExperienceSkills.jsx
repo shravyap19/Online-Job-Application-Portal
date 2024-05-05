@@ -1,10 +1,26 @@
+import { useEffect } from "react";
 import { useState } from "react";
 import Location from "./Location";
 
 function ExperienceSkills({ data, updateData }) {
-  let [prevEmployerDetails, setPrevEmployerDetails] = useState([
-    { id: Date.now(), value: "" },
-  ]);
+  let [prevEmployerDetails, setPrevEmployerDetails] = useState([]);
+  useEffect(() => {
+    if (data.prevEmployerDetails) {
+      setPrevEmployerDetails(data.prevEmployerDetails);
+    } else {
+      setPrevEmployerDetails([
+        {
+          id: Date.now(),
+          employerName: "",
+          position: "",
+          currentJob: false,
+          startDate: "",
+          endDate: "",
+          description: "",
+        },
+      ]);
+    }
+  }, [data.prevEmployerDetails]);
   function handleChange(e) {
     let { name, value } = e.target;
     updateData({ ...data, [name]: value });
@@ -23,8 +39,19 @@ function ExperienceSkills({ data, updateData }) {
     );
   }
   function handleAddEmployerDetails() {
-    let newEmployerDetails = { id: Date.now(), value: "" };
-    setPrevEmployerDetails([...prevEmployerDetails, newEmployerDetails]);
+    const newPrevEmpDetails = {
+      id: Date.now(),
+      employerName: "",
+      position: "",
+      currentJob: false,
+      startDate: "",
+      endDate: "",
+      description: "",
+    };
+    setPrevEmployerDetails((prevEmpDetails) => {
+      const updatedDetails = [...prevEmpDetails, newPrevEmpDetails];
+      return updatedDetails;
+    });
   }
   return (
     <div>
@@ -142,7 +169,7 @@ function ExperienceSkills({ data, updateData }) {
           )}
         </div>
       ))}
-      <div onCLick={handleAddEmployerDetails} className="add-more-container">
+      <div onClick={handleAddEmployerDetails} className="add-more-container">
         <img className="add-more-btn" src="./plus.png" alt="add more" />
         <p className="title">Add Another Job</p>
       </div>
