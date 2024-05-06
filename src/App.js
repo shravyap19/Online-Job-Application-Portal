@@ -23,6 +23,7 @@ function App() {
     "voluntary-identification",
     "review-submit",
   ];
+  let [canProceed, setCanProceed] = useState(true);
   function updateFormData(section, data) {
     setFormData((prevData) => ({
       ...prevData,
@@ -56,12 +57,18 @@ function App() {
           />
         );
       case "review-submit":
-        return <ReviewSubmit formData={formData} />;
+        return (
+          <ReviewSubmit
+            formData={formData}
+            setActiveSection={setActiveSection}
+          />
+        );
       default:
         return (
           <PersonalInformation
             data={formData.personalInfo}
             updateData={(data) => updateFormData("personalInfo", data)}
+            setCanProceed={setCanProceed}
           />
         );
     }
@@ -109,8 +116,9 @@ function App() {
             )}
             {nextSection && (
               <div
-                className="btn-container"
-                onClick={() => setActiveSection(nextSection)}
+                disabled={canProceed}
+                className={`btn-container ${!canProceed ? "disabled-btn" : ""}`}
+                onClick={() => canProceed && setActiveSection(nextSection)}
               >
                 <div className="arrow-container">
                   <div className="arrow">&rarr;</div>

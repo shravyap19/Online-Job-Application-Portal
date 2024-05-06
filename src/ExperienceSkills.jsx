@@ -20,6 +20,7 @@ function ExperienceSkills({ data, updateData }) {
           startDate: "",
           endDate: "",
           description: "",
+          currentJob: false,
         },
       ]);
     }
@@ -41,6 +42,16 @@ function ExperienceSkills({ data, updateData }) {
       prevEmpDetails.filter((empDetails) => empDetails.id !== id)
     );
   }
+  function handleCurrentJobChange(id, isChecked) {
+    const updatedDetails = prevEmployerDetails.map((detail) => {
+      if (detail.id === id) {
+        return { ...detail, currentJob: isChecked };
+      }
+      return detail;
+    });
+    setPrevEmployerDetails(updatedDetails);
+    updateData({ ...data, prevEmployerDetails: updatedDetails });
+  }
   function handleAddEmployerDetails() {
     const newPrevEmpDetails = {
       id: Date.now(),
@@ -52,6 +63,7 @@ function ExperienceSkills({ data, updateData }) {
       startDate: "",
       endDate: "",
       description: "",
+      currentJob: false,
     };
     setPrevEmployerDetails((prevEmpDetails) => {
       const updatedDetails = [...prevEmpDetails, newPrevEmpDetails];
@@ -73,6 +85,7 @@ function ExperienceSkills({ data, updateData }) {
           zipCode: "",
           endDate: "",
           description: "",
+          currentJob: false,
         },
       ];
       setPrevEmployerDetails((prevEmpDetails) => {
@@ -121,7 +134,7 @@ function ExperienceSkills({ data, updateData }) {
       </div>
       {!isFirstJob &&
         prevEmployerDetails.map((details) => (
-          <div key={details.id}>
+          <div key={details.id} className="degree-div">
             <p className="title">Employer Name</p>
             <input
               className="input-text-box"
@@ -162,7 +175,14 @@ function ExperienceSkills({ data, updateData }) {
             />
             <p className="title time-period-container">Time Period</p>
             <div className="current-job-container">
-              <input className="current-work-checkbox" type="checkbox" />
+              <input
+                className="current-work-checkbox"
+                type="checkbox"
+                checked={details.currentJob || false}
+                onChange={(e) =>
+                  handleCurrentJobChange(details.id, e.target.checked)
+                }
+              />
               <p className="sub-heading">I currently work here</p>
             </div>
             <div className="date-calendar">
@@ -183,26 +203,30 @@ function ExperienceSkills({ data, updateData }) {
                   }
                 />
               </div>
-              <div>
-                <p className="title">to</p>
-              </div>
-              <div>
-                <p className="title">End(MM/YYYY)</p>
-                <input
-                  className="zip-text-box"
-                  type="text"
-                  placeholder="End(MM/YYYY)"
-                  value={details.endDate || ""}
-                  name="endDate"
-                  onChange={(e) =>
-                    handleEmployerDetailsChange(
-                      details.id,
-                      e.target.value,
-                      e.target.name
-                    )
-                  }
-                />
-              </div>
+              {!details.currentJob && (
+                <div>
+                  <p className="title">to</p>
+                </div>
+              )}
+              {!details.currentJob && (
+                <div>
+                  <p className="title">End(MM/YYYY)</p>
+                  <input
+                    className="zip-text-box"
+                    type="text"
+                    placeholder="End(MM/YYYY)"
+                    value={details.endDate || ""}
+                    name="endDate"
+                    onChange={(e) =>
+                      handleEmployerDetailsChange(
+                        details.id,
+                        e.target.value,
+                        e.target.name
+                      )
+                    }
+                  />
+                </div>
+              )}
             </div>
             <p className="title">Description</p>
             <textarea
@@ -225,7 +249,11 @@ function ExperienceSkills({ data, updateData }) {
                   handleRemoveJob(prevEmployerDetails.id, e.value, e.name)
                 }
               >
-                <p className="cross-container">&times;</p>
+                <img
+                  className="remove-btn"
+                  src="./cross-button.webp"
+                  alt="close"
+                />
                 <p className="remove-url">Remove this Job</p>
               </div>
             )}
@@ -234,7 +262,7 @@ function ExperienceSkills({ data, updateData }) {
       {!isFirstJob && (
         <div onClick={handleAddEmployerDetails} className="add-more-container">
           <img className="add-more-btn" src="./plus.png" alt="add more" />
-          <p className="title">Add Another Job</p>
+          <p className="add-another">Add Another Job</p>
         </div>
       )}
       <p className="sub-heading parent-container">Skills (optional)</p>

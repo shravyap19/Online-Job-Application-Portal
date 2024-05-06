@@ -82,7 +82,7 @@ function Education({ data, updateData }) {
       <p className="heading">Education</p>
       <p className="sub-heading">Higher Education (optional)</p>
       {degrees.map((degree) => (
-        <div key={degree.id}>
+        <div key={degree.id} className="degree-div">
           <p className="title">School Name</p>
           <input
             className="input-text-box"
@@ -128,7 +128,11 @@ function Education({ data, updateData }) {
               className="remove-container"
               onClick={() => handleRemoveDegree(degree.id, "degrees")}
             >
-              <p className="cross-container">&times;</p>
+              <img
+                className="remove-btn"
+                src="./cross-button.webp"
+                alt="close"
+              />
               <p className="remove-url">Remove this Degree</p>
             </div>
           )}

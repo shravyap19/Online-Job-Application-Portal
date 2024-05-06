@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useState } from "react";
 import Location from "./Location";
-function PersonalInformation({ data, updateData }) {
+function PersonalInformation({ data, updateData, setCanProceed }) {
   let [urls, setUrls] = useState([]);
 
   useEffect(() => {
@@ -10,8 +10,19 @@ function PersonalInformation({ data, updateData }) {
     } else {
       setUrls([{ id: Date.now(), value: "" }]);
     }
+    checkFormValidity(data);
   }, [data.urls]);
 
+  function checkFormValidity(updatedData) {
+    let isFormValid =
+      updatedData.fullName &&
+      updatedData.email &&
+      updatedData.phone &&
+      updatedData.city &&
+      updatedData.state &&
+      updatedData.zipCode;
+    setCanProceed(isFormValid);
+  }
   function handleAddURL() {
     const newUrl = { id: Math.random(), value: "" };
     setUrls([...urls, newUrl]);
@@ -24,19 +35,24 @@ function PersonalInformation({ data, updateData }) {
   }
 
   function handleChange(value, name) {
-    console.log(value, name);
-    updateData({ ...data, [name]: value });
+    const updatedData = { ...data, [name]: value };
+    updateData(updatedData);
+    checkFormValidity(updatedData);
   }
   function handleURLChange(id, value, name) {
     const updateUrls = urls.map((url) =>
       url.id === id ? { ...url, value } : url
     );
     setUrls(updateUrls);
-    updateData({ ...data, [name]: updateUrls });
+    let updatedData = { ...data, [name]: updateUrls };
+    updateData(updatedData);
+    checkFormValidity(updatedData);
   }
   function handleFileChange(e) {
     const { name, files } = e.target;
-    updateData({ ...data, [name]: files[0] });
+    let updatedFileData = { ...data, [name]: files[0] };
+    updateData(updatedFileData);
+    checkFormValidity(updatedFileData);
   }
   return (
     <div>
@@ -92,7 +108,7 @@ function PersonalInformation({ data, updateData }) {
       <p className="sub-heading parent-container">Website (optional)</p>
       <div>
         {urls.map((url) => (
-          <div key={url.id}>
+          <div key={url.id} className="degree-div">
             <p className="URL-details">URL(LinkedIn, Github, Portfolio)</p>
             <input
               className="input-text-box"
@@ -109,7 +125,11 @@ function PersonalInformation({ data, updateData }) {
                 className="remove-container"
                 onClick={(e) => handleRemoveUrl(url.id, "urls")}
               >
-                <p className="cross-container">&times;</p>
+                <img
+                  className="remove-btn"
+                  src="./cross-button.webp"
+                  alt="close"
+                />
                 <p className="remove-url">Remove this website</p>
               </div>
             )}
@@ -117,7 +137,7 @@ function PersonalInformation({ data, updateData }) {
         ))}
       </div>
       <div onClick={handleAddURL} className="add-more-container">
-        <img className="add-more-btn" src="./plus.png" alt="add more" />
+        <img className="add-more-btn" src="./plus.webp" alt="add more" />
         <p className="add-another">Add Another Website</p>
       </div>
     </div>
