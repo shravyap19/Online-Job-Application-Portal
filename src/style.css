@@ -97,6 +97,9 @@
   padding-bottom: 15px;
   padding-top: 15px;
 }
+.review-text {
+  font-size: medium;
+}
 .title {
   margin-top: 10px;
   margin-right: 10px;

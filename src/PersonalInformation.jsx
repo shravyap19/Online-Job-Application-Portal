@@ -23,8 +23,8 @@ function PersonalInformation({ data, updateData }) {
     updateData(updatedData);
   }
 
-  function handleChange(e) {
-    const { name, value } = e.target;
+  function handleChange(value, name) {
+    console.log(value, name);
     updateData({ ...data, [name]: value });
   }
   function handleURLChange(id, value, name) {
@@ -59,9 +59,14 @@ function PersonalInformation({ data, updateData }) {
         placeholder="Full Name"
         name="fullName"
         value={data.fullName || ""}
-        onChange={(e) => handleChange(e)}
+        onChange={(e) => handleChange(e.target.value, e.target.name)}
       />
-      <Location data={data} updateData={updateData} />
+      <Location
+        city={data.city || ""}
+        state={data.state || ""}
+        zipCode={data.zipCode || ""}
+        handleLocationChange={handleChange}
+      />
       <div className="parent-container">
         <p className="title">Email</p>
         <input
@@ -70,7 +75,7 @@ function PersonalInformation({ data, updateData }) {
           placeholder="Email"
           name="email"
           value={data.email || ""}
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
       </div>
       <div className="parent-container">
@@ -81,7 +86,7 @@ function PersonalInformation({ data, updateData }) {
           placeholder="Phone"
           name="phone"
           value={data.phone || ""}
-          onChange={(e) => handleChange(e)}
+          onChange={(e) => handleChange(e.target.value, e.target.name)}
         />
       </div>
       <p className="sub-heading parent-container">Website (optional)</p>

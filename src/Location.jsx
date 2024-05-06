@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Select from "react-select";
 function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
   const usStates = [
@@ -54,10 +53,18 @@ function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
     { id: Date.now(), value: "WY", label: "Wyoming" },
   ];
   function handleChange(e) {
-    handleLocationChange(detailsId, e.target.value, e.target.name);
+    if (!detailsId) {
+      handleLocationChange(e.target.value, e.target.name);
+    } else {
+      handleLocationChange(detailsId, e.target.value, e.target.name);
+    }
   }
   function handleStateChange(selectedOption) {
-    handleLocationChange(detailsId, selectedOption.value, "state");
+    if (!detailsId) {
+      handleLocationChange(selectedOption.value, "state");
+    } else {
+      handleLocationChange(detailsId, selectedOption.value, "state");
+    }
   }
   return (
     <div className="location-container">
@@ -77,7 +84,7 @@ function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
         <Select
           className="state-dropdown"
           options={usStates}
-          placeholder="Location"
+          placeholder="State"
           name="state"
           value={usStates.find((opt) => opt.value === state) || ""}
           onChange={handleStateChange}
