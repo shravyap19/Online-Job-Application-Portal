@@ -3,7 +3,15 @@ import { useState } from "react";
 import Location from "./Location";
 function PersonalInformation({ data, updateData, setCanProceed }) {
   let [urls, setUrls] = useState([]);
-
+  let [errors, setErrors] = useState({
+    fullName: "",
+    email: "",
+    phone: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    urls: [],
+  });
   useEffect(() => {
     if (data.urls) {
       setUrls(data.urls);
@@ -22,6 +30,34 @@ function PersonalInformation({ data, updateData, setCanProceed }) {
       updatedData.state &&
       updatedData.zipCode;
     setCanProceed(isFormValid);
+  }
+
+  function validateForm() {
+    let newErrors = { ...errors };
+
+    newErrors.fullName = data.fullName ? "" : "Full name is required.";
+    newErrors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
+      ? ""
+      : "Enter a valid email address.";
+    newErrors.phone = /^\d{10}$/.test(data.phone)
+      ? ""
+      : "Enter a valid phone number (10 digits).";
+    newErrors.city = data.city ? "" : "City is required.";
+    newErrors.state = data.state ? "" : "State is required.";
+    newErrors.zipCode = /^\d{5}(-\d{4})?$/.test(data.zipCode)
+      ? ""
+      : "Enter a valid ZIP code.";
+    newErrors.urls = urls.map((url) => ({
+      ...url,
+      error: /^https?:\/\/[^ "]+$/.test(url.value) ? "" : "Enter a valid URL.",
+    }));
+
+    setErrors(newErrors);
+    setCanProceed(
+      Object.values(newErrors).every(
+        (msg) => msg === "" && newErrors.urls.every((u) => u.error === "")
+      )
+    );
   }
   function handleAddURL() {
     const newUrl = { id: Math.random(), value: "" };
@@ -58,14 +94,12 @@ function PersonalInformation({ data, updateData, setCanProceed }) {
     <div>
       <p className="heading">Personal Information</p>
       <p className="sub-heading">Resume</p>
-      <button className="resume-upload-label">
+      <button
+        className="resume-upload-label"
+        onChange={(e) => handleFileChange(e)}
+      >
         <span>Upload from device</span>
-        <input
-          className="resume-input"
-          type="file"
-          name="resume"
-          onChange={(e) => handleFileChange(e)}
-        />
+        <input className="resume-input" type="file" name="resume" />
       </button>
       <p className="sub-heading parent-container">Contact Info</p>
       <p className="title">Full Name</p>

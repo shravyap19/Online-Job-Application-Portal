@@ -1,6 +1,5 @@
 import { get } from "lodash";
 function ReviewSubmit({ formData, setActiveSection }) {
-  console.log(formData);
   return (
     <div>
       <p className="heading">Review Your Application</p>
@@ -168,23 +167,25 @@ function ReviewSubmit({ formData, setActiveSection }) {
         </div>
       )}
 
-      <div>
-        <div
-          className="review-edit-container"
-          onClick={() => setActiveSection("education")}
-        >
-          <p className="sub-heading text-decoration margin-dim">
-            Voluntary Identification
-          </p>
-          <img className="edit-img" src="./edit-icon.svg" alt="edit" />
-        </div>
+      {formData.voluntaryIdentification.gender && (
         <div>
-          <p className="review-text">Gender</p>
-          <p className="input-info">
-            {formData.voluntaryIdentification.gender}
-          </p>
+          <div
+            className="review-edit-container"
+            onClick={() => setActiveSection("education")}
+          >
+            <p className="sub-heading text-decoration margin-dim">
+              Voluntary Identification
+            </p>
+            <img className="edit-img" src="./edit-icon.svg" alt="edit" />
+          </div>
+          <div>
+            <p className="review-text">Gender</p>
+            <p className="input-info">
+              {formData.voluntaryIdentification.gender}
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }
