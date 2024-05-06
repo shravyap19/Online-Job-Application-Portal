@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from "react-select";
-function Location({ data, updateData }) {
-  const [usStates, setUsStates] = useState([
+function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
+  const usStates = useState([
     { id: Date.now(), value: "AL", label: "Alabama" },
     { id: Date.now(), value: "AK", label: "Alaska" },
     { id: Date.now(), value: "AZ", label: "Arizona" },
@@ -54,19 +54,10 @@ function Location({ data, updateData }) {
     { id: Date.now(), value: "WY", label: "Wyoming" },
   ]);
   function handleChange(e) {
-    let { name, value } = e.target;
-    updateData({ ...data, [name]: value });
+    handleLocationChange(detailsId, e.target.value, e.target.name);
   }
-  function handlePrevJobStateChange(selecetedOption, id) {
-    setUsStates((prevStates) =>
-      prevStates.map((prevState) =>
-        prevState.id === id ? { ...prevState, selecetedOption } : prevState
-      )
-    );
-    updateData({
-      ...data,
-      state: selecetedOption ? selecetedOption.value : "",
-    });
+  function handleStateChange(selectedOption) {
+    handleLocationChange(detailsId, "state", selectedOption.value);
   }
   return (
     <div className="location-container">
@@ -77,7 +68,7 @@ function Location({ data, updateData }) {
           type="text"
           placeholder="City"
           name="city"
-          value={data.city || ""}
+          value={city || ""}
           onChange={(e) => handleChange(e)}
         />
       </div>
@@ -88,10 +79,8 @@ function Location({ data, updateData }) {
           options={usStates}
           placeholder="Location"
           name="state"
-          value={data.state || ""}
-          onChange={(selectedOption) =>
-            handlePrevJobStateChange(selectedOption, selectedOption.id)
-          }
+          value={usStates.find((opt) => opt.value === state) || ""}
+          onChange={handleStateChange}
         />
       </div>
       <div>
@@ -101,7 +90,7 @@ function Location({ data, updateData }) {
           type="text"
           placeholder="Zip Code"
           name="zipCode"
-          value={data.zipCode || ""}
+          value={zipCode || ""}
           onChange={(e) => handleChange(e)}
         />
       </div>
