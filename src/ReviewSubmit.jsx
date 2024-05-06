@@ -120,11 +120,11 @@ function ReviewSubmit({ formData, setActiveSection }) {
                           {details.city && (
                             <p className="input-info">{details.city}</p>
                           )}
-                          {details.city && details.state && <p>,</p>}
+                          {details.city && details.state && <p>&#44;</p>}
                           {details.state && (
                             <p className="input-info">{details.state}</p>
                           )}
-                          {details.state && details.zipCode && <p>,</p>}
+                          {details.state && details.zipCode && <p>&#44;</p>}
                           {details.zipCode && (
                             <p className="input-info">{details.zipCode}</p>
                           )}
@@ -179,7 +179,10 @@ function ReviewSubmit({ formData, setActiveSection }) {
           <img className="edit-img" src="./edit-icon.svg" alt="edit" />
         </div>
         <div>
-          <p>Gender</p>
+          <p className="review-text">Gender</p>
+          <p className="input-info">
+            {formData.voluntaryIdentification.gender}
+          </p>
         </div>
       </div>
     </div>

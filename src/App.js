@@ -98,6 +98,7 @@ function App() {
         <SideBar
           activeSection={activeSection}
           setActiveSection={setActiveSection}
+          canProceed={canProceed}
         ></SideBar>
         <div className="details-container">
           {renderSection()}

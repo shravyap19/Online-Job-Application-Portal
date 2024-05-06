@@ -1,4 +1,4 @@
-function SideBar({ activeSection, setActiveSection }) {
+function SideBar({ activeSection, setActiveSection, canProceed }) {
   const sections = [
     { key: "personal-info", label: "Personal Information" },
     { key: "education", label: "Education" },
@@ -12,12 +12,21 @@ function SideBar({ activeSection, setActiveSection }) {
         {sections.map((section) => (
           <p
             key={section.key}
-            onClick={() =>
-              section.key !== activeSection && setActiveSection(section.key)
-            }
+            onClick={() => {
+              if (canProceed || section.key === activeSection) {
+                setActiveSection(section.key);
+              }
+            }}
             className={`${section.key} ${
               section.key === activeSection ? "active-section" : ""
             }`}
+            style={{
+              cursor:
+                canProceed || section.key === activeSection
+                  ? "pointer"
+                  : "default",
+              opacity: canProceed || section.key === activeSection ? 1 : 0.5,
+            }}
           >
             {section.label}
           </p>
