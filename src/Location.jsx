@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Select from "react-select";
 function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
-  const usStates = useState([
+  const usStates = [
     { id: Date.now(), value: "AL", label: "Alabama" },
     { id: Date.now(), value: "AK", label: "Alaska" },
     { id: Date.now(), value: "AZ", label: "Arizona" },
@@ -52,12 +52,12 @@ function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
     { id: Date.now(), value: "WV", label: "West Virginia" },
     { id: Date.now(), value: "WI", label: "Wisconsin" },
     { id: Date.now(), value: "WY", label: "Wyoming" },
-  ]);
+  ];
   function handleChange(e) {
     handleLocationChange(detailsId, e.target.value, e.target.name);
   }
   function handleStateChange(selectedOption) {
-    handleLocationChange(detailsId, "state", selectedOption.value);
+    handleLocationChange(detailsId, selectedOption.value, "state");
   }
   return (
     <div className="location-container">
@@ -69,7 +69,7 @@ function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
           placeholder="City"
           name="city"
           value={city || ""}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
         />
       </div>
       <div>
@@ -91,7 +91,7 @@ function Location({ city, state, zipCode, handleLocationChange, detailsId }) {
           placeholder="Zip Code"
           name="zipCode"
           value={zipCode || ""}
-          onChange={(e) => handleChange(e)}
+          onChange={handleChange}
         />
       </div>
     </div>

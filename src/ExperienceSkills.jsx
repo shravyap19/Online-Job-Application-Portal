@@ -6,9 +6,6 @@ function ExperienceSkills({ data, updateData }) {
   let [prevEmployerDetails, setPrevEmployerDetails] = useState([]);
   let [isFirstJob, setIsFirstJob] = useState(data.isFirstJob || false);
   useEffect(() => {
-    {
-      console.log("Details being passed to Location:", prevEmployerDetails);
-    }
     if (data.prevEmployerDetails) {
       setPrevEmployerDetails(data.prevEmployerDetails);
     } else {
@@ -27,7 +24,7 @@ function ExperienceSkills({ data, updateData }) {
       ]);
     }
     setIsFirstJob(data.isFirstJob || false);
-  }, [data.prevEmployerDetails, data.isFirstJob, prevEmployerDetails]);
+  }, [data.prevEmployerDetails, data.isFirstJob]);
   function handleChange(e) {
     let { name, value } = e.target;
     updateData({ ...data, [name]: value });
