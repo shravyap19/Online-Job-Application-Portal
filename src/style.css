@@ -97,8 +97,24 @@
   padding-bottom: 15px;
   padding-top: 15px;
 }
+.review-text-container {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
 .review-text {
+  font-size: small;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  font-weight: bold;
+}
+.medium-text {
   font-size: medium;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  margin-bottom: 20px;
+}
+.input-info {
+  margin-top: 5px;
+  font-family: "Optimistic Text Normal", Helvetica, Arial, sans-serif;
+  font-size: small;
 }
 .title {
   margin-top: 10px;
