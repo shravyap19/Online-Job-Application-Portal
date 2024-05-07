@@ -1,5 +1,6 @@
 import { get } from "lodash";
 function ReviewSubmit({ formData, setActiveSection }) {
+  console.log(formData.personalInfo);
   return (
     <div>
       <p className="heading">Review Your Application</p>
@@ -38,6 +39,10 @@ function ReviewSubmit({ formData, setActiveSection }) {
         <div className="review-text-container">
           <p className="review-text">Phone</p>
           <p className="input-info">{formData.personalInfo.phone}</p>
+        </div>
+        <div className="review-text-container">
+          <p className="review-text">Resume</p>
+          <p className="input-info">{formData.personalInfo.resume.name}</p>
         </div>
         <div>
           {get(formData, "personalInfo.urls.length") > 0 &&

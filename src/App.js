@@ -7,6 +7,7 @@ import Education from "./Education";
 import ExperienceSkills from "./ExperienceSkills";
 import VoluntaryIdentification from "./VoluntaryIdentification";
 import ReviewSubmit from "./ReviewSubmit";
+import SuccessPage from "./SuccessPage";
 
 function App() {
   let [activeSection, setActiveSection] = useState("personal-info");
@@ -24,11 +25,15 @@ function App() {
     "review-submit",
   ];
   let [canProceed, setCanProceed] = useState(true);
+  let [isSubmitted, setIsSubmitted] = useState(false);
   function updateFormData(section, data) {
     setFormData((prevData) => ({
       ...prevData,
       [section]: data,
     }));
+  }
+  function onSubmit() {
+    setIsSubmitted(true);
   }
 
   function renderSection() {
@@ -81,8 +86,8 @@ function App() {
   return (
     <div>
       <div className="header">
-        <p className="job-title">Senior Software Engineer, Systems ML - AI</p>
-        <p className="job-title header-padding">Application Engineering</p>
+        <p className="job-title">Senior Software Engineer, Systems</p>
+        <p className="job-title header-padding">Front End Engineering</p>
         <div className="job-location-container">
           <div className="header-padding">
             <img
@@ -94,42 +99,57 @@ function App() {
           <p className="job-location">Sunnyvale, California</p>
         </div>
       </div>
-      <div className="App">
-        <SideBar
-          activeSection={activeSection}
-          setActiveSection={setActiveSection}
-          canProceed={canProceed}
-        ></SideBar>
-        <div className="details-container">
-          {renderSection()}
-          <hr className="hr-footer" />
-          <div className="footer-btn">
-            {previousSection && (
-              <div
-                className="btn-container"
-                onClick={() => setActiveSection(previousSection)}
-              >
-                <div className="arrow-container">
-                  <div className="arrow">&larr;</div>
-                </div>
-                <p className="footer-btn-label">Back</p>
+      {!isSubmitted && (
+        <div className="App">
+          <SideBar
+            activeSection={activeSection}
+            setActiveSection={setActiveSection}
+            canProceed={canProceed}
+          ></SideBar>
+          <div className="details-container">
+            {renderSection()}
+            <hr className="hr-footer" />
+            <div className="footer-btn">
+              <div className="footer-submit-container">
+                {previousSection && (
+                  <div
+                    className="btn-container"
+                    onClick={() => setActiveSection(previousSection)}
+                  >
+                    <div className="arrow-container">
+                      <div className="arrow">&larr;</div>
+                    </div>
+                    <p className="footer-btn-label">Back</p>
+                  </div>
+                )}
+                {!nextSection && (
+                  <div>
+                    <button onClick={onSubmit} className="submit-btn">
+                      Submit
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-            {nextSection && (
-              <div
-                disabled={canProceed}
-                className={`btn-container ${!canProceed ? "disabled-btn" : ""}`}
-                onClick={() => canProceed && setActiveSection(nextSection)}
-              >
-                <div className="arrow-container">
-                  <div className="arrow">&rarr;</div>
+
+              {nextSection && (
+                <div
+                  disabled={canProceed}
+                  className={`btn-container ${
+                    !canProceed ? "disabled-btn" : ""
+                  }`}
+                  onClick={() => canProceed && setActiveSection(nextSection)}
+                >
+                  <div className="arrow-container">
+                    <div className="arrow">&rarr;</div>
+                  </div>
+                  <p className="footer-btn-label">Next</p>
                 </div>
-                <p className="footer-btn-label">Next</p>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
-      </div>
+      )}
+      {isSubmitted && <SuccessPage name={formData.personalInfo.fullName} />}
     </div>
   );
 }

@@ -3,15 +3,10 @@ import { useState } from "react";
 import Location from "./Location";
 function PersonalInformation({ data, updateData, setCanProceed }) {
   let [urls, setUrls] = useState([]);
-  let [errors, setErrors] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    city: "",
-    state: "",
-    zipCode: "",
-    urls: [],
-  });
+  const [resumeName, setResumeName] = useState(
+    data.resume ? data.resume.name : ""
+  );
+
   useEffect(() => {
     if (data.urls) {
       setUrls(data.urls);
@@ -28,37 +23,11 @@ function PersonalInformation({ data, updateData, setCanProceed }) {
       updatedData.phone &&
       updatedData.city &&
       updatedData.state &&
-      updatedData.zipCode;
+      updatedData.zipCode &&
+      updatedData.resume;
     setCanProceed(isFormValid);
   }
 
-  function validateForm() {
-    let newErrors = { ...errors };
-
-    newErrors.fullName = data.fullName ? "" : "Full name is required.";
-    newErrors.email = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)
-      ? ""
-      : "Enter a valid email address.";
-    newErrors.phone = /^\d{10}$/.test(data.phone)
-      ? ""
-      : "Enter a valid phone number (10 digits).";
-    newErrors.city = data.city ? "" : "City is required.";
-    newErrors.state = data.state ? "" : "State is required.";
-    newErrors.zipCode = /^\d{5}(-\d{4})?$/.test(data.zipCode)
-      ? ""
-      : "Enter a valid ZIP code.";
-    newErrors.urls = urls.map((url) => ({
-      ...url,
-      error: /^https?:\/\/[^ "]+$/.test(url.value) ? "" : "Enter a valid URL.",
-    }));
-
-    setErrors(newErrors);
-    setCanProceed(
-      Object.values(newErrors).every(
-        (msg) => msg === "" && newErrors.urls.every((u) => u.error === "")
-      )
-    );
-  }
   function handleAddURL() {
     const newUrl = { id: Math.random(), value: "" };
     setUrls([...urls, newUrl]);
@@ -85,22 +54,47 @@ function PersonalInformation({ data, updateData, setCanProceed }) {
     checkFormValidity(updatedData);
   }
   function handleFileChange(e) {
-    const { name, files } = e.target;
-    let updatedFileData = { ...data, [name]: files[0] };
+    const { files } = e.target;
+    if (files.length > 0) {
+      const file = files[0];
+      setResumeName(file.name);
+      let updatedFileData = { ...data, resume: file };
+      updateData(updatedFileData);
+      checkFormValidity(updatedFileData);
+    }
+  }
+  function removeResume() {
+    setResumeName("");
+    let updatedFileData = { ...data, resume: "" };
     updateData(updatedFileData);
-    checkFormValidity(updatedFileData);
   }
   return (
     <div>
       <p className="heading">Personal Information</p>
       <p className="sub-heading">Resume</p>
-      <button
-        className="resume-upload-label"
-        onChange={(e) => handleFileChange(e)}
-      >
-        <span>Upload from device</span>
-        <input className="resume-input" type="file" name="resume" />
-      </button>
+      {!resumeName && (
+        <button className="resume-upload-label">
+          <span>Upload from device</span>
+          <input
+            className="resume-input"
+            type="file"
+            id="fileInput"
+            onChange={(e) => handleFileChange(e)}
+          />
+        </button>
+      )}
+      {resumeName && (
+        <div className="resume-name-display">
+          {resumeName}
+          <img
+            onClick={removeResume}
+            className="remove-btn"
+            src="./close.png"
+            alt="close"
+          />
+        </div>
+      )}
+
       <p className="sub-heading parent-container">Contact Info</p>
       <p className="title">Full Name</p>
       <input
@@ -159,11 +153,7 @@ function PersonalInformation({ data, updateData, setCanProceed }) {
                 className="remove-container"
                 onClick={(e) => handleRemoveUrl(url.id, "urls")}
               >
-                <img
-                  className="remove-btn"
-                  src="./cross-button.webp"
-                  alt="close"
-                />
+                <img className="remove-btn" src="./close.png" alt="close" />
                 <p className="remove-url">Remove this website</p>
               </div>
             )}
