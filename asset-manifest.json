@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/Online-Job-Application-Portal/static/css/main.b47a3fb4.css",
-    "main.js": "/Online-Job-Application-Portal/static/js/main.5f816781.js",
+    "main.js": "/Online-Job-Application-Portal/static/js/main.6d4cc115.js",
     "static/js/453.cf62b95b.chunk.js": "/Online-Job-Application-Portal/static/js/453.cf62b95b.chunk.js",
     "index.html": "/Online-Job-Application-Portal/index.html",
     "main.b47a3fb4.css.map": "/Online-Job-Application-Portal/static/css/main.b47a3fb4.css.map",
-    "main.5f816781.js.map": "/Online-Job-Application-Portal/static/js/main.5f816781.js.map",
+    "main.6d4cc115.js.map": "/Online-Job-Application-Portal/static/js/main.6d4cc115.js.map",
     "453.cf62b95b.chunk.js.map": "/Online-Job-Application-Portal/static/js/453.cf62b95b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.b47a3fb4.css",
-    "static/js/main.5f816781.js"
+    "static/js/main.6d4cc115.js"
   ]
 }
