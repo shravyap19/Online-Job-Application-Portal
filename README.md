@@ -5,7 +5,11 @@ This project is a job application portal designed to allow candidates to apply f
 
 **Features**
 **Multi-Step Form:** Navigate through different sections of the application, filling out personal information, educational background, and work experience.
+
 **Dynamic Form Elements:** Add or remove fields dynamically, such as URLs for personal websites or portfolios.
+
 **Validation:** Form validation to ensure all required fields are filled out correctly before submission.
+
 **Resume Upload:** Candidates can upload their resume as part of the application process.
+
 **Confirmation Message:** Upon submission, candidates receive a confirmation message detailing next steps and contact information.
