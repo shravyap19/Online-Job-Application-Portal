@@ -247,7 +247,7 @@ function ExperienceSkills({ data, updateData }) {
             {prevEmployerDetails.length > 1 && (
               <div
                 className="remove-container"
-                onClick={(e) => handleRemoveJob(details.id, e.value, e.name)}
+                onClick={(e) => handleRemoveJob(details.id)}
               >
                 <img
                   className="remove-btn"
