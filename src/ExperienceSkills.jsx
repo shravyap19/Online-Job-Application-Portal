@@ -38,9 +38,11 @@ function ExperienceSkills({ data, updateData }) {
     updateData({ ...data, prevEmployerDetails: updatedData });
   }
   function handleRemoveJob(id) {
-    setPrevEmployerDetails((prevEmpDetails) =>
-      prevEmpDetails.filter((empDetails) => empDetails.id !== id)
+    let updatedData = prevEmployerDetails.filter(
+      (empDetails) => empDetails.id !== id
     );
+    setPrevEmployerDetails(updatedData);
+    updateData({ ...data, updatedData });
   }
   function handleCurrentJobChange(id, isChecked) {
     const updatedDetails = prevEmployerDetails.map((detail) => {
@@ -245,9 +247,7 @@ function ExperienceSkills({ data, updateData }) {
             {prevEmployerDetails.length > 1 && (
               <div
                 className="remove-container"
-                onClick={(e) =>
-                  handleRemoveJob(prevEmployerDetails.id, e.value, e.name)
-                }
+                onClick={(e) => handleRemoveJob(details.id, e.value, e.name)}
               >
                 <img
                   className="remove-btn"

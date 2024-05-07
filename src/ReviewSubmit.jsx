@@ -80,6 +80,7 @@ function ReviewSubmit({ formData, setActiveSection }) {
                 </div>
               </div>
             ))}
+            <p className="review-text">High School</p>
             <p className="input-info">{formData.education.highSchool}</p>
           </div>
         </div>
